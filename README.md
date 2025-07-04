@@ -1,4 +1,4 @@
-# Hikar (JavaScript)
+# Praidux (JavaScript)
 
 First install the project dependencies by running the following command, also make sure you have the node installed on your system (Version 18 or higher)
 
