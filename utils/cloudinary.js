@@ -130,9 +130,22 @@ const uploadToCloudinary = async (filePath) => {
         throw error;
     }
 };
+const uploadVideoToCloudinary = async (filePath) => {
+  try {
+    const result = await cloudinary.uploader.upload(filePath, {
+      folder: "hikar_car_videos", // You can name this folder as needed
+      resource_type: "video",
+    });
+    return result;
+  } catch (error) {
+    console.error("Video upload failed:", error.message);
+    throw error;
+  }
+};
 
 module.exports = {
     uploadToCloudinary,
+    uploadVideoToCloudinary,
     safeUnlink,
     forceDeleteFile
 };
