@@ -2,7 +2,7 @@ const express = require("express");
 const projectController = require("../controllers/projectController");
 const router = express.Router();
 const multer = require("multer");
-const upload = require('../middleware/upload');
+const upload = require("../middleware/upload");
 
 // For adding project
 router.post(
@@ -10,7 +10,7 @@ router.post(
   upload.fields([
     { name: "images", maxCount: 10 },
     { name: "logo", maxCount: 1 },
-    { name: "video", maxCount: 1 }
+    { name: "video", maxCount: 1 },
   ]),
   projectController.createProject
 );
@@ -21,9 +21,20 @@ router.get("/view-project", projectController.getAllProjects);
 router.get("/view-project/:id", projectController.getProjectById);
 
 // For updating project with given ID
-router.put("/update-project/:id", upload.array("images", 15), projectController.updateProject);
+router.put(
+  "/update-project/:id",
+  upload.fields([
+    { name: "images", maxCount: 10 },
+    { name: "logo", maxCount: 1 },
+    { name: "video", maxCount: 1 },
+  ]),
+  projectController.updateProject
+);
 
 // For deleting project with given ID
 router.delete("/delete-project/:id", projectController.deleteProject);
+
+
+router.put("/update-list-status/:id", projectController.updateListStatus);
 
 module.exports = router;
