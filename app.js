@@ -15,6 +15,7 @@ const verifyToken = require("./middleware/verify");
 // Importing Routes
 const authRoutes = require("./routes/auth");
 const projectRoutes = require("./routes/project");
+const faqRoutes = require("./routes/faq");
 const carRoutes = require("./routes/car");
 const userRoutes = require("./routes/user");
 const visitRoutes = require("./routes/visit");
@@ -55,6 +56,7 @@ app.use("/visit", visitRoutes);
 app.use("/config", verifyToken, carConfigRoutes);
 app.use("/color", verifyToken, colorRoutes);
 app.use("/project", projectRoutes);
+app.use("/faq", faqRoutes)
 
 // Server Listening
 app.listen(port, () => {

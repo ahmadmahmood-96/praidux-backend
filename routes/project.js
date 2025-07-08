@@ -15,7 +15,7 @@ router.post(
   projectController.createProject
 );
 // For viewing all project
-router.get("/view-project", projectController.getAllProjects);
+router.get("/view-projects", projectController.getAllProjects);
 
 // For viewing project with given ID
 router.get("/view-project/:id", projectController.getProjectById);
