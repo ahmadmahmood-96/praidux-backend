@@ -4,6 +4,7 @@ const bcrypt = require("bcryptjs");
 
 exports.login = async (req, res) => {
   try {
+    console.log("checked in")
     const {
       email,
       password
