@@ -30,9 +30,9 @@ const fileFilter = (req, file, cb) => {
   const imageTypes = ["image/jpeg", "image/png", "image/gif", "image/webp"];
   const videoTypes = ["video/mp4", "video/webm", "video/quicktime"];
   if (
-    (file.fieldname === "images" || file.fieldname === "logo") &&
-    imageTypes.includes(file.mimetype)
-  ) {
+  ["images", "logo", "projectLogo", "clientImage" , "blogImage"].includes(file.fieldname) &&
+  imageTypes.includes(file.mimetype)
+) {
     cb(null, true);
 
     // Allow video files for video

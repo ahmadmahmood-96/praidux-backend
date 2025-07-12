@@ -23,7 +23,7 @@ const projectSchema = new mongoose.Schema(
       trim: true,
     },
     downloads: {
-      type: String, // or Number, depending on how you handle it
+      type: String, 
       required: true,
       trim: true,
     },
