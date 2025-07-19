@@ -11,7 +11,6 @@ exports.createContact = async (req, res) => {
 
   try {
     const {
-      countryCode,
       countryName,
       fullName,
       phone,
@@ -21,7 +20,7 @@ exports.createContact = async (req, res) => {
     } = req.body;
 
     // Validate required fields
-    if (!countryCode || !countryName || !fullName || !phone || !email) {
+    if ( !countryName || !fullName || !phone || !email) {
       return res.status(400).json({ message: "Missing required fields" });
     }
 
@@ -40,7 +39,6 @@ exports.createContact = async (req, res) => {
     }
 
     const newContact = await Contact.create({
-      countryCode,
       countryName,
       fullName,
       phone,
