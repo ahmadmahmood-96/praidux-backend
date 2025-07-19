@@ -40,6 +40,22 @@ exports.getAllProjects = async (req, res) => {
     res.status(500).json({ status: "error", message: error.message });
   }
 };
+exports.getPublicProjects = async (req, res) => {
+  try {
+    const { skip = 0, limit = 6 } = req.query;
+
+    const projects = await Project.find({ listOnWebsite: true })
+      .select("title mainCategory logo categories description listOnWebsite")
+      .skip(Number(skip))
+      .limit(Number(limit));
+
+    res.status(200).json(projects);
+  } catch (error) {
+    res.status(500).json({ status: "error", message: error.message });
+  }
+};
+
+
 
 exports.getProjectById = async (req, res) => {
   try {

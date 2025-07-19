@@ -29,19 +29,28 @@ const storage = multer.diskStorage({
 const fileFilter = (req, file, cb) => {
   const imageTypes = ["image/jpeg", "image/png", "image/gif", "image/webp"];
   const videoTypes = ["video/mp4", "video/webm", "video/quicktime"];
-  if (
-  ["images", "logo", "projectLogo", "clientImage" , "blogImage"].includes(file.fieldname) &&
-  imageTypes.includes(file.mimetype)
-) {
-    cb(null, true);
 
-    // Allow video files for video
-  } else if (file.fieldname === "video" && videoTypes.includes(file.mimetype)) {
+  // Allow any file type if fieldname is 'attachment'
+  if (file.fieldname === "attachment") {
     cb(null, true);
-  } else {
+  } 
+  // Allow images
+  else if (
+    ["images", "logo", "projectLogo", "clientImage", "blogImage"].includes(file.fieldname) &&
+    imageTypes.includes(file.mimetype)
+  ) {
+    cb(null, true);
+  } 
+  // Allow videos
+  else if (file.fieldname === "video" && videoTypes.includes(file.mimetype)) {
+    cb(null, true);
+  } 
+  // Reject anything else
+  else {
     cb(new Error(`Invalid file type for ${file.fieldname}`), false);
   }
 };
+
 
 const upload = multer({
   storage: storage,

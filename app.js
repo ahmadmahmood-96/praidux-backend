@@ -22,6 +22,7 @@ const colorRoutes = require("./routes/color");
 const videoTestimonialRoutes = require("./routes/videoTestimonial");
 const staticTestimonialRoutes = require("./routes/staticTestimonial");
 const blogRoutes = require("./routes/blog");
+const contactRoutes =require("./routes/contact");
 // Middleware
 app.use(cookieParser());
 
@@ -60,6 +61,7 @@ app.use("/faq", faqRoutes);
 app.use("/videoTestimonial", videoTestimonialRoutes);
 app.use("/staticTestimonial", staticTestimonialRoutes);
 app.use("/blog", blogRoutes);
+app.use("/contact",contactRoutes);
 
 // Server Listening
 app.listen(port, () => {

@@ -95,6 +95,19 @@ exports.createStaticTestimonial = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
+// ✅ Get only testimonials listed on the website
+exports.getListedStaticTestimonials = async (req, res) => {
+  try {
+    const testimonials = await StaticTestimonial.find({ listOnWebsite: true });
+    res.status(200).json({
+      status: "success",
+      message: "Listed static testimonials retrieved",
+      result: testimonials,
+    });
+  } catch (error) {
+    res.status(500).json({ status: "error", message: error.message });
+  }
+};
 
 // ✅ Update testimonial
 exports.updateStaticTestimonial = async (req, res) => {

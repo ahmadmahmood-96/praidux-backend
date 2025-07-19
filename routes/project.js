@@ -20,6 +20,10 @@ router.get("/view-projects", projectController.getAllProjects);
 // For viewing project with given ID
 router.get("/view-project/:id", projectController.getProjectById);
 
+// For fetching only the projects that are listed on the website (listOnWebsite: true)
+router.get("/public-projects", projectController.getPublicProjects);
+
+
 // For updating project with given ID
 router.put(
   "/update-project/:id",

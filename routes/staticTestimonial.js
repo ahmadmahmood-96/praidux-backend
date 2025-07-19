@@ -20,6 +20,13 @@ router.get(
   staticTestimonialController.getAllStaticTestimonials
 );
 
+// ✅ Get testimonials where listOnWebsite = true
+router.get(
+  "/view-listed-static-testimonials",
+  staticTestimonialController.getListedStaticTestimonials
+);
+
+
 // ✅ Get one static testimonial by ID
 router.get(
   "/view-static-testimonial/:id",

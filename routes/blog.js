@@ -13,6 +13,10 @@ router.get("/view-blogs", blogController.getAllBlogs);
 
 router.get("/view-blog/:id", blogController.getBlogById);
 
+// routes/blogRoutes.js (or wherever your router is defined)
+router.get("/listed-blogs", blogController.getListedBlogs);
+
+
 router.put(
   "/update-blog/:id",
   upload.fields([{ name: "blogImage", maxCount: 1 }]),
