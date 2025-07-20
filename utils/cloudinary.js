@@ -108,11 +108,7 @@ const forceDeleteFile = (filePath) => {
 //             }
 //         }
 
-//         // 3️⃣ Upload to Cloudinary
-//         const result = await cloudinary.uploader.upload(tempFileName, {
-//             folder: "hikar_car_images",
-//             resource_type: "image",
-//         });
+//      
 
 //         // 4️⃣ Clean up temp file with delay
 //         await new Promise(resolve => setTimeout(resolve, 100));
@@ -132,21 +128,17 @@ const forceDeleteFile = (filePath) => {
 // };
 
 const uploadToCloudinary = async (filePath) => {
-   const ext = path.extname(filePath).toLowerCase();
-const supportedImageExts = ['.jpg', '.jpeg', '.png', '.webp'];
+    const ext = path.extname(filePath).toLowerCase();
 
-// ✅ Assume everything is not image unless explicitly matched
-const isImage = supportedImageExts.includes(ext);
+    // Supported image formats
+    const supportedImageExts = ['.jpg', '.jpeg', '.png', '.webp'];
 
-// 🔁 Either compress + upload image or upload as raw/auto
-if (!isImage) {
-  const result = await cloudinary.uploader.upload(filePath, {
-    folder: "hikar_car_files",
-    resource_type: "auto", // Make sure it's auto
-  });
-
-  return result;
-}
+    // 🔒 If not an image, directly upload without using sharp
+    if (!supportedImageExts.includes(ext)) {
+        const result = await cloudinary.uploader.upload(filePath, {
+            folder: "praidux_files", // You can organize files differently
+            resource_type: "auto",     // Let Cloudinary detect type (image, raw, video)
+        });
 
         return result;
     }
@@ -186,7 +178,7 @@ if (!isImage) {
         }
 
         const result = await cloudinary.uploader.upload(tempFileName, {
-            folder: "hikar_car_images",
+            folder: "praidux_images",
             resource_type: "image",
         });
 
@@ -205,7 +197,7 @@ if (!isImage) {
 const uploadVideoToCloudinary = async (filePath) => {
   try {
     const result = await cloudinary.uploader.upload(filePath, {
-      folder: "hikar_car_videos", // You can name this folder as needed
+      folder: "praidux_videos", // You can name this folder as needed
       resource_type: "video",
     });
     return result;
