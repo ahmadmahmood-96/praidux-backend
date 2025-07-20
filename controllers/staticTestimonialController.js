@@ -21,7 +21,7 @@ const cleanupFiles = async (files) => {
 // ✅ Get all static testimonials
 exports.getAllStaticTestimonials = async (req, res) => {
   try {
-    const testimonials = await StaticTestimonial.find();
+    const testimonials = await StaticTestimonial.find().sort({ createdAt: -1 });
     res.status(200).json({
       status: "success",
       message: "Static testimonials retrieved",

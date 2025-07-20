@@ -28,15 +28,21 @@ exports.getAllBlogs = async (req, res) => {
     res.status(500).json({ status: "error", message: error.message });
   }
 };
+// ✅ blogController.js
 exports.getListedBlogs = async (req, res) => {
   try {
-    const listedBlogs = await Blog.find({ listOnWebsite: true });
+    const { skip = 0, limit = 6 } = req.query;
+    const listedBlogs = await Blog.find({ listOnWebsite: true })
+      .sort({ createdAt: -1 })
+      .skip(parseInt(skip))
+      .limit(parseInt(limit));
     res.status(200).json(listedBlogs);
   } catch (error) {
     console.error("Error fetching listed blogs:", error);
     res.status(500).json({ message: "Failed to fetch listed blogs" });
   }
 };
+
 
 // ✅ Get blog by ID
 exports.getBlogById = async (req, res) => {

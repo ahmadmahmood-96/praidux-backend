@@ -28,7 +28,7 @@ const getPublicIdFromUrl = (url) => {
 };
 exports.getAllProjects = async (req, res) => {
   try {
-    const projects = await Project.find().select(
+    const projects = await Project.find().sort({ createdAt: -1 }).select(
       "title mainCategory logo  categories description listOnWebsite"
     );
     res.status(200).json({

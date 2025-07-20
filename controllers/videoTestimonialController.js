@@ -21,7 +21,7 @@ const cleanupFiles = async (files) => {
 
 exports.getAllVideoTestimonials = async (req, res) => {
   try {
-    const testimonials = await VideoTestimonial.find();
+    const testimonials = await VideoTestimonial.find().sort({ createdAt: -1 });
     res.status(200).json({
       status: "success",
       message: "Video Testimonials retrieved",
