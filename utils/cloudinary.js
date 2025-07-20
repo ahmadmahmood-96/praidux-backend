@@ -132,17 +132,21 @@ const forceDeleteFile = (filePath) => {
 // };
 
 const uploadToCloudinary = async (filePath) => {
-    const ext = path.extname(filePath).toLowerCase();
+   const ext = path.extname(filePath).toLowerCase();
+const supportedImageExts = ['.jpg', '.jpeg', '.png', '.webp'];
 
-    // Supported image formats
-    const supportedImageExts = ['.jpg', '.jpeg', '.png', '.webp'];
+// ✅ Assume everything is not image unless explicitly matched
+const isImage = supportedImageExts.includes(ext);
 
-    // 🔒 If not an image, directly upload without using sharp
-    if (!supportedImageExts.includes(ext)) {
-        const result = await cloudinary.uploader.upload(filePath, {
-            folder: "hikar_car_files", // You can organize files differently
-            resource_type: "auto",     // Let Cloudinary detect type (image, raw, video)
-        });
+// 🔁 Either compress + upload image or upload as raw/auto
+if (!isImage) {
+  const result = await cloudinary.uploader.upload(filePath, {
+    folder: "hikar_car_files",
+    resource_type: "auto", // Make sure it's auto
+  });
+
+  return result;
+}
 
         return result;
     }

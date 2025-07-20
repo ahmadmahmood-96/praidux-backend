@@ -11,16 +11,15 @@ exports.createContact = async (req, res) => {
 
   try {
     const {
-      countryName,
       fullName,
       phone,
       email,
-      description, // or message
-      services = [], // optional, default to empty array
+      description, 
+      services = [],
     } = req.body;
 
     // Validate required fields
-    if ( !countryName || !fullName || !phone || !email) {
+    if (  !fullName || !phone || !email) {
       return res.status(400).json({ message: "Missing required fields" });
     }
 
@@ -39,7 +38,6 @@ exports.createContact = async (req, res) => {
     }
 
     const newContact = await Contact.create({
-      countryName,
       fullName,
       phone,
       email,
@@ -59,3 +57,15 @@ exports.createContact = async (req, res) => {
     return res.status(500).json({ message: error.message });
   }
 };
+exports.getAllContacts = async (req, res) => {
+  try {
+    const contacts = await Contact.find().sort({ createdAt: -1 }); // optional: latest first
+    res.status(200).json({
+      message: "Contacts fetched successfully",
+      contacts,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+

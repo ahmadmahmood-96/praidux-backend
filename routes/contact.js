@@ -9,4 +9,5 @@ router.post(
   upload.fields([{ name: "attachment", maxCount: 1 }]),
   contactController.createContact
 );
+router.get("/view-all", contactController.getAllContacts);
 module.exports = router;

@@ -1,10 +1,6 @@
 const mongoose = require("mongoose");
 
 const contactSchema = new mongoose.Schema({
-  countryName: {
-    type: String,
-    required: true,
-  },
   fullName: {
     type: String,
     required: true,
