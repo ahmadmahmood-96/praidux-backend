@@ -133,17 +133,18 @@ const uploadToCloudinary = async (filePath) => {
     // Supported image formats
     const supportedImageExts = ['.jpg', '.jpeg', '.png', '.webp'];
 
-    // 🔒 If not an image, directly upload without using sharp
-    if (!supportedImageExts.includes(ext)) {
-        const result = await cloudinary.uploader.upload(filePath, {
-            folder: "praidux_files", // You can organize files differently
-            resource_type: "auto",     // Let Cloudinary detect type (image, raw, video)
-        });
+   if (!supportedImageExts.includes(ext)) {
+  const resourceType = ext === ".pdf" ? "raw" : "auto";
 
-        return result;
-    }
+  const result = await cloudinary.uploader.upload(filePath, {
+    folder: "praidux_files",
+    resource_type: resourceType,
+  });
 
-    // ⬇️ your existing image compression and upload logic
+  return result;
+}
+
+    
     const tempFileName = path.join(
         os.tmpdir(),
         `compressed_${Date.now()}_${Math.random().toString(36).substring(2)}.webp`
