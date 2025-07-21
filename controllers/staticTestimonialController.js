@@ -21,7 +21,7 @@ const cleanupFiles = async (files) => {
 // ✅ Get all static testimonials
 exports.getAllStaticTestimonials = async (req, res) => {
   try {
-    const testimonials = await StaticTestimonial.find();
+    const testimonials = await StaticTestimonial.find().sort({ createdAt: -1 });
     res.status(200).json({
       status: "success",
       message: "Static testimonials retrieved",
@@ -93,6 +93,19 @@ exports.createStaticTestimonial = async (req, res) => {
   } catch (error) {
     setImmediate(() => cleanupFiles(uploadedFiles));
     return res.status(500).json({ message: error.message });
+  }
+};
+// ✅ Get only testimonials listed on the website
+exports.getListedStaticTestimonials = async (req, res) => {
+  try {
+    const testimonials = await StaticTestimonial.find({ listOnWebsite: true });
+    res.status(200).json({
+      status: "success",
+      message: "Listed static testimonials retrieved",
+      result: testimonials,
+    });
+  } catch (error) {
+    res.status(500).json({ status: "error", message: error.message });
   }
 };
 

@@ -65,7 +65,86 @@ const forceDeleteFile = (filePath) => {
     });
 };
 
+// const uploadToCloudinary = async (filePath) => {
+//     const tempFileName = path.join(
+//         os.tmpdir(),
+//         `compressed_${Date.now()}_${Math.random().toString(36).substring(2)}.webp`
+//     );
+
+//     let sharpInstance = null;
+
+//     try {
+//         // 1️⃣ First compression attempt
+//         sharpInstance = sharp(filePath);
+//         await sharpInstance
+//             .webp({
+//                 quality: 80
+//             })
+//             .toFile(tempFileName);
+
+//         // Explicitly destroy the sharp instance
+//         if (sharpInstance) {
+//             sharpInstance.destroy();
+//             sharpInstance = null;
+//         }
+
+//         // 2️⃣ Check file size & recompress if needed
+//         let stats = await fs.stat(tempFileName);
+//         if (stats.size > 350 * 1024) {
+//             // Delete the first file and create a new one with lower quality
+//             await safeUnlink(tempFileName);
+
+//             sharpInstance = sharp(filePath);
+//             await sharpInstance
+//                 .webp({
+//                     quality: 75
+//                 })
+//                 .toFile(tempFileName);
+
+//             // Explicitly destroy the sharp instance
+//             if (sharpInstance) {
+//                 sharpInstance.destroy();
+//                 sharpInstance = null;
+//             }
+//         }
+
+//      
+
+//         // 4️⃣ Clean up temp file with delay
+//         await new Promise(resolve => setTimeout(resolve, 100));
+//         await safeUnlink(tempFileName);
+
+//         return result;
+//     } catch (error) {
+//         // Clean up sharp instance
+//         if (sharpInstance) {
+//             sharpInstance.destroy();
+//         }
+
+//         // Clean up temp file in case of error
+//         await safeUnlink(tempFileName);
+//         throw error;
+//     }
+// };
+
 const uploadToCloudinary = async (filePath) => {
+    const ext = path.extname(filePath).toLowerCase();
+
+    // Supported image formats
+    const supportedImageExts = ['.jpg', '.jpeg', '.png', '.webp'];
+
+   if (!supportedImageExts.includes(ext)) {
+  const resourceType = ext === ".pdf" ? "raw" : "auto";
+
+  const result = await cloudinary.uploader.upload(filePath, {
+    folder: "praidux_files",
+    resource_type: resourceType,
+  });
+
+  return result;
+}
+
+    
     const tempFileName = path.join(
         os.tmpdir(),
         `compressed_${Date.now()}_${Math.random().toString(36).substring(2)}.webp`
@@ -74,66 +153,52 @@ const uploadToCloudinary = async (filePath) => {
     let sharpInstance = null;
 
     try {
-        // 1️⃣ First compression attempt
         sharpInstance = sharp(filePath);
         await sharpInstance
-            .webp({
-                quality: 80
-            })
+            .webp({ quality: 80 })
             .toFile(tempFileName);
 
-        // Explicitly destroy the sharp instance
         if (sharpInstance) {
             sharpInstance.destroy();
             sharpInstance = null;
         }
 
-        // 2️⃣ Check file size & recompress if needed
         let stats = await fs.stat(tempFileName);
         if (stats.size > 350 * 1024) {
-            // Delete the first file and create a new one with lower quality
             await safeUnlink(tempFileName);
 
             sharpInstance = sharp(filePath);
             await sharpInstance
-                .webp({
-                    quality: 75
-                })
+                .webp({ quality: 75 })
                 .toFile(tempFileName);
 
-            // Explicitly destroy the sharp instance
             if (sharpInstance) {
                 sharpInstance.destroy();
                 sharpInstance = null;
             }
         }
 
-        // 3️⃣ Upload to Cloudinary
         const result = await cloudinary.uploader.upload(tempFileName, {
-            folder: "hikar_car_images",
+            folder: "praidux_images",
             resource_type: "image",
         });
 
-        // 4️⃣ Clean up temp file with delay
         await new Promise(resolve => setTimeout(resolve, 100));
         await safeUnlink(tempFileName);
 
         return result;
     } catch (error) {
-        // Clean up sharp instance
-        if (sharpInstance) {
-            sharpInstance.destroy();
-        }
-
-        // Clean up temp file in case of error
+        if (sharpInstance) sharpInstance.destroy();
         await safeUnlink(tempFileName);
         throw error;
     }
 };
+
+
 const uploadVideoToCloudinary = async (filePath) => {
   try {
     const result = await cloudinary.uploader.upload(filePath, {
-      folder: "hikar_car_videos", // You can name this folder as needed
+      folder: "praidux_videos", // You can name this folder as needed
       resource_type: "video",
     });
     return result;

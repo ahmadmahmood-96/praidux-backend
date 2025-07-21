@@ -21,7 +21,7 @@ const cleanupFiles = async (files) => {
 
 exports.getAllVideoTestimonials = async (req, res) => {
   try {
-    const testimonials = await VideoTestimonial.find();
+    const testimonials = await VideoTestimonial.find().sort({ createdAt: -1 });
     res.status(200).json({
       status: "success",
       message: "Video Testimonials retrieved",
@@ -39,6 +39,19 @@ exports.getVideoTestimonialById = async (req, res) => {
     if (!testimonial)
       return res.status(404).json({ status: "fail", message: "Not found" });
     res.status(200).json({ status: "success", result: testimonial });
+  } catch (error) {
+    res.status(500).json({ status: "error", message: error.message });
+  }
+};
+// ✅ Get video testimonials that are listed on the website
+exports.getListedVideoTestimonials = async (req, res) => {
+  try {
+    const listedTestimonials = await VideoTestimonial.find({ listOnWebsite: true });
+    res.status(200).json({
+      status: "success",
+      message: "Listed video testimonials retrieved",
+      result: listedTestimonials,
+    });
   } catch (error) {
     res.status(500).json({ status: "error", message: error.message });
   }

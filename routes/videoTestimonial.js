@@ -30,6 +30,13 @@ router.delete(
   testimonialController.deleteVideoTestimonial
 );
 
+// ✅ Get only testimonials listed on website
+router.get(
+  "/view-listed-video-testimonials",
+  testimonialController.getListedVideoTestimonials
+);
+
+
 //  Update listOnWebsite status (boolean)
 router.put(
   "/update-video-status/:id",
