@@ -5,7 +5,9 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const app = express();
 const port = process.env.PORT;
-const { connect } = require("./database");
+const {
+  connect
+} = require("./database");
 
 // Importing Verifying Token Middleware
 const verifyToken = require("./middleware/verify");
@@ -18,7 +20,7 @@ const userRoutes = require("./routes/user");
 const videoTestimonialRoutes = require("./routes/videoTestimonial");
 const staticTestimonialRoutes = require("./routes/staticTestimonial");
 const blogRoutes = require("./routes/blog");
-const contactRoutes =require("./routes/contact");
+const contactRoutes = require("./routes/contact");
 // Middleware
 app.use(cookieParser());
 
@@ -53,7 +55,15 @@ app.use("/faq", faqRoutes);
 app.use("/videoTestimonial", videoTestimonialRoutes);
 app.use("/staticTestimonial", staticTestimonialRoutes);
 app.use("/blog", blogRoutes);
-app.use("/contact",contactRoutes);
+app.use("/contact", contactRoutes);
+
+// Health check endpoint
+app.get('/health', (req, res) => {
+  res.status(200).json({
+    status: 'OK',
+    timestamp: new Date().toISOString()
+  });
+});
 
 // Server Listening
 app.listen(port, () => {
