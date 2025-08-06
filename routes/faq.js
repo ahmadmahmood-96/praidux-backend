@@ -1,5 +1,5 @@
 const express = require("express");
-const faqController = require("../controllers/FaqController");
+const faqController = require("../controllers/faqController");
 const router = express.Router();
 
 router.post("/add-faq", faqController.createFaq);
