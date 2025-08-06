@@ -49,7 +49,7 @@ app.get("/health", (_, res) => {
 
 // Routes
 app.use("/auth", authRoutes);
-app.use("/users", verifyToken, userRoutes);
+app.use("/users", userRoutes);
 app.use("/project", projectRoutes);
 app.use("/faq", faqRoutes);
 app.use("/videoTestimonial", videoTestimonialRoutes);
