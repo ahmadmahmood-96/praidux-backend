@@ -26,7 +26,7 @@ app.use(cookieParser());
 
 app.use(
   cors({
-    origin: ["http://localhost:5173", "http://localhost:3000"],
+    origin: ["http://localhost:5173", "http://localhost:3000", "https://praidux-admin-dashboard.vercel.app", "https://praidux-frontend.vercel.app"],
     credentials: true,
   })
 );
