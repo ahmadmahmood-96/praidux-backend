@@ -34,6 +34,13 @@ const fileFilter = (req, file, cb) => {
   if (file.fieldname === "attachment") {
     cb(null, true);
   } 
+   else if (file.fieldname.startsWith("blockMedia_")) {
+    if (imageTypes.includes(file.mimetype) || videoTypes.includes(file.mimetype)) {
+      return cb(null, true);
+    }
+    return cb(new Error("Invalid block media type"), false);
+  }
+
   // Allow images
   else if (
     ["images", "logo", "projectLogo", "clientImage", "blogImage"].includes(file.fieldname) &&

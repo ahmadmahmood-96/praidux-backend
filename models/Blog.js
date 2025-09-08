@@ -1,5 +1,24 @@
 const mongoose = require("mongoose");
 
+const contentBlockSchema = new mongoose.Schema(
+  {
+    mediaUrl: {
+      type: String, 
+      trim: true,
+    },
+    mediaType: {
+      type: String, 
+      enum: ["image", "video", null],
+      default: null,
+    },
+    text: {
+      type: String, 
+      trim: true,
+    },
+  },
+  { _id: false } 
+);
+
 const blogSchema = new mongoose.Schema(
   {
     writerName: {
@@ -17,21 +36,22 @@ const blogSchema = new mongoose.Schema(
       required: true,
       validate: [(val) => val.length > 0, "At least one category is required"],
     },
-    blogContent: {
-      type: String,
-      required: true,
-    },
+    contentBlocks: [contentBlockSchema], 
     listOnWebsite: {
       type: Boolean,
       default: false,
     },
     blogImageUrl: {
-      type: String, // You might store image URL/path here
+      type: String, 
+      trim: true,
+    },
+     blogContent: {
+      type: String, 
       trim: true,
     },
   },
   {
-    timestamps: true, // Automatically adds createdAt and updatedAt
+    timestamps: true,
   }
 );
 
