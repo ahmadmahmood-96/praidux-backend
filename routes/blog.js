@@ -5,7 +5,7 @@ const upload = require("../middleware/upload");
 
 router.post(
   "/add-blog",
-  upload.fields([{ name: "blogImage", maxCount: 1 }]),
+ upload.any(),
   blogController.createBlog
 );
 
@@ -19,7 +19,7 @@ router.get("/listed-blogs", blogController.getListedBlogs);
 
 router.put(
   "/update-blog/:id",
-  upload.fields([{ name: "blogImage", maxCount: 1 }]),
+  upload.any(),   // ✅ allow blogImage + blockMedia_x just like add-blog
   blogController.updateBlog
 );
 
