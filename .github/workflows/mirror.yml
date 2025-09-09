@@ -1,0 +1,29 @@
+name: Push Code to Target Repo
+
+on:
+  push:
+    branches:
+      - main # or whichever branch you want to sync
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # get full history if needed
+
+      - name: Push to target repo
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git config --unset-all http.https://github.com/.extraheader
+
+          # Add target repo as remote
+          git remote add target https://x-access-token:${{ secrets.TARGET_REPO_PAT }}@github.com/praidux-collab/backend.git
+
+          # Push source branch to target repo's main branch
+          git push target main --force
