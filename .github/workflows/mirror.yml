@@ -3,7 +3,7 @@ name: Push Code to Target Repo
 on:
   push:
     branches:
-      - main # or whichever branch you want to sync
+      - main 
 
 jobs:
   sync:
